@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
 //import logo from './logo.svg';
 import './App.css';
 
@@ -75,34 +77,49 @@ class App extends Component {
       id: this.state.tasks.length
     }
     this.setState({
-      tasks: [...this.state.tasks,  newTask]
+      tasks: [...this.state.tasks, newTask]
     })
   }
 
   deleteTask = (id) => {
-    const newTasks = this.state.tasks.filter( task => task.id !== id )
-    this.setState( {
+    const newTasks = this.state.tasks.filter(task => task.id !== id)
+    this.setState({
       tasks: newTasks
     })
   }
 
   checkDone = (id) => {
-    const newTasks = this.state.tasks.map( task => {
+    const newTasks = this.state.tasks.map(task => {
       if (task.id === id) {
-        task.done = !task.done} 
-        return task} )
-    this.setState( {
+        task.done = !task.done
+      }
+      return task
+    })
+    this.setState({
       tasks: newTasks
     })
   }
 
-  render(){
+  render() {
     return <div>
-      <TaskForm addTask={this.addTask}/>
-      <Tasks tasks= {this.state.tasks} deleteTask = {this.deleteTask} checkDone = {this.checkDone} />
-      <Posts />
+      <Router>
+        
+        <Link to="/post"> Post </Link>
+        <Route exact path="/" render={() => {
+          return <div>
+            <TaskForm addTask={this.addTask} />
+            <Tasks tasks={this.state.tasks}
+              deleteTask={this.deleteTask}
+              checkDone={this.checkDone} />
+          </div>;
+        }}>
+        </Route>
+        <Link to="/">Home</Link>
+        <Route path="/post" component={Posts} >
+        </Route>
+      </Router>
     </div>
   }
-} 
+}
 
 export default App;

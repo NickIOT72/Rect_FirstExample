@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 export default class Posts extends Component {
 
     state = {
-        posts:''
+        posts:[]
     }
 
     async componentDidMount() {
         const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-        const data = res.json();
+        const data = await res.json();
         console.log(data);
         this.setState({
             posts: data
